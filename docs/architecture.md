@@ -15,7 +15,9 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 - MongoDB: `27017`
 - Express API: `8000`
 - Vite frontend: `5173`
+- Only ports `8000`, `5173`, and `27017` should appear in application configuration.
 - The browser calls relative `/api` paths. Vite proxies them to `http://localhost:8000`, so the unauthenticated API port stays private in Codespaces. `VITE_API_BASE_URL` can override the base URL.
+- If MongoDB is not running in Codespaces, follow the [Codespaces setup notes](../.github/steps/1-step.md) before continuing.
 
 ## API contract
 
@@ -41,6 +43,7 @@ Team management approach: Require a name, preserve the submitted name and mascot
 ## Test plan
 
 Record the commands you run and what each failure means.
+Run commands from the repository root, using `--prefix` for package-specific npm commands.
 
 - Data-tier command: `npm run test:data --prefix octofit-tracker/backend`
 - API command: `npm run test:api --prefix octofit-tracker/backend`
