@@ -8,7 +8,7 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 - **Presentation tier**: React 19, Vite, React Router, Bootstrap, and a shared API client in `octofit-tracker/frontend/src`.
 - **Logic tier**: Express and TypeScript routes/services in `octofit-tracker/backend/src` expose `/api/*` behavior on port `8000`.
-- **Data tier**: Mongoose models and seed data in `octofit-tracker/backend/src/models` and `src/scripts/seed.ts` persist to MongoDB on port `27017`.
+- **Data tier**: Mongoose models and seed data in `octofit-tracker/backend/src/models` and `src/scripts/seed.ts` persist to MongoDB on port `27017`. Vite runs on 5173;
 
 ## Ports and environment rules
 
@@ -30,13 +30,13 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 Record your plan here before editing code.
 
-- Presentation tier decision:
-- Logic tier decision:
-- Data tier decision:
-- Activity tracking approach:
-- Team management approach:
-- Leaderboard approach:
-- Workout suggestions approach:
+- Presentation tier decision: Keep route-level UI in React, use the shared API client for relative /api requests, and show accessible loading, empty, and error states.
+- Logic tier decision: Keep request validation and capability behavior in Express routes/services; return deliberate 4xx responses for invalid or unknown records.
+- Data tier decision: Use Mongoose models for required fields, references, and basic validation; keep seed data idempotent.
+- Activity tracking approach: Validate user/team IDs and existence before creating an activity; store the references, type, minutes, computed points, and occurrence time.
+Team management approach: Require a name, preserve the submitted name and mascot, and support member references when listing and creating teams.
+- Leaderboard approach: Aggregate activity points by team, sort highest first, and assign ranks starting at 1.
+- Workout suggestions approach: Match the user by email, use their goal or recent activities to choose a suggestion, include a reason, and return 4xx when no user matches.
 
 ## Test plan
 
