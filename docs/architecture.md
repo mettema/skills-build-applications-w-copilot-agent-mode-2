@@ -24,13 +24,19 @@ The backend contract tests start an isolated MongoDB instance with
 `mongodb-memory-server`; you do not need a separate MongoDB server to run
 `npm test --prefix octofit-tracker/backend`.
 
-To run the API or seed data against the local database, MongoDB must be
-available at `mongodb://localhost:27017` (or at the URI set in `MONGODB_URI`).
-In Codespaces, the container startup script attempts to start MongoDB
-automatically. Check readiness with:
+To run the API or seed data against a persistent database, MongoDB must be
+available at `mongodb://localhost:27017` or at the URI configured by
+`MONGODB_URI`. In Codespaces, the container startup script starts MongoDB
+automatically. Check that it is ready with:
 
 ```bash
 mongosh --quiet --eval 'db.runCommand({ping:1})'
+```
+
+If the check fails in Codespaces, inspect `/tmp/mongod.log` for startup errors
+and restart the Codespace so its startup script can try again. In other
+environments, start or restart MongoDB using that environment's service manager,
+then rerun the readiness check before starting the API or seeding data.
 
 ## API contract
 
@@ -47,7 +53,7 @@ mongosh --quiet --eval 'db.runCommand({ping:1})'
 - Logic tier decision: Keep request validation and capability behavior in Express routes/services; return deliberate 4xx responses for invalid or unknown records.
 - Data tier decision: Use Mongoose models for required fields, references, and basic validation; keep seed data idempotent.
 - Activity tracking approach: Validate user/team IDs and existence before creating an activity; store the references, type, minutes, computed points, and occurrence time.
-Team management approach: Require a name, preserve the submitted name and mascot, and support member references when listing and creating teams.
+- Team management approach: Require a name, preserve the submitted name and mascot, and support member references when listing and creating teams.
 - Leaderboard approach: Aggregate activity points by team, sort highest first, and assign ranks starting at 1.
 - Workout suggestions approach: Match the user by email, use their goal or recent activities to choose a suggestion, include a reason, and return 4xx when no user matches.
 
@@ -57,7 +63,6 @@ Install backend command: `npm ci --prefix octofit-tracker/backend`
 Install frontend command: `npm ci --prefix octofit-tracker/frontend`
 
 ## Test plan
-
 
 - Data-tier command: `npm run test:data --prefix octofit-tracker/backend`
 - API command: `npm run test:api --prefix octofit-tracker/backend`
