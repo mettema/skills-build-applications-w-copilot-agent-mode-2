@@ -69,3 +69,5 @@ Install frontend command: `npm ci --prefix octofit-tracker/frontend`
 - Frontend command: `npm test --prefix octofit-tracker/frontend`
 - Backend build command: `npm run build --prefix octofit-tracker/backend`
 - Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+
+Run the full suites once before editing to capture the red baseline, then re-run the matching tier command after each small change.
